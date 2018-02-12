@@ -19,7 +19,7 @@ int mover = 1; //1 is random, -1 is thinker
 int counter = 0;
 
 void setup() {
-  size(600, 600);
+  size(650, 650);
   columns = width/w;
   rows = height/w;
   grid = new Cell[columns][rows];
@@ -37,7 +37,7 @@ void setup() {
   }
 
   //SET TARGET AND SOURCE
-  target = new PVector(int(columns/2), rows-3);
+  target = new PVector(int(columns/2), int(rows/2));
   grid[int(target.x)][int(target.y)].state = 2;
 
   //SET EDGE MOVES TO -1
@@ -79,29 +79,18 @@ void draw() {
   //If agent has reached the goal, place agent at a new random location
   if (reset == true) {
     counter++;
-    agent = new PVector(int(random(0, columns-1)), 0);
-    
-    reset = false;
+    float randomGen = random(0, 4);
+    if (randomGen < 1) {
+      agent = new PVector(int(random(0, columns-1)), 0);
+    } else if (randomGen < 2) {
+      agent = new PVector(0, int(random(0, rows-1)));
+    } else if (randomGen < 3) {
+      agent = new PVector(columns-1, int(random(0, rows-1)));
+    } else {
+      agent = new PVector(int(random(0, columns-1)), rows-1);
+    }
 
-    //if the values are too high, normalise them
-    //boolean valuesAreTooHigh = false;
-    //for ( int i = 0; i < columns; i++) {
-    //  for ( int j = 0; j < rows; j++) {
-    //    for (int k=0; k<5; k++) {
-    //      if (grid[i][j].moveQ[k] > QValueThreshhold)
-    //        valuesAreTooHigh = true;
-    //    }
-    //  }
-    //}
-    //if (valuesAreTooHigh == true) {
-    //  for ( int i = 0; i < columns; i++) {
-    //    for ( int j = 0; j < rows; j++) {
-    //      for (int k=0; k<5; k++) {
-    //        grid[i][j].moveQ[k] /= 100;
-    //      }
-    //    }
-    //  }
-    //}
+    reset = false;
   }
 
   int move = int(random(5));
@@ -170,41 +159,39 @@ void mousePressed() {
   for (int i=1; i<columns-1; i++) {
     for (int j=1; j<rows-1; j++) {
       if (((mouseX < grid[i][j].x+w) && (mouseX > grid[i][j].x)) && ((mouseY < grid[i][j].y+w) && (mouseY > grid[i][j].y))) {
-        
+
         if (grid[i][j].state == 0) {
-          
+
           grid[i][j].state = 3;
-          
-          for(int k=0; k<5; k++) {
+
+          for (int k=0; k<5; k++) {
             grid[i][j].moveR[k] = 0;
             grid[i][j].moveQ[k] = 0;
           }
           grid[i][j].moveR[4] = -1;
-          
+
           grid[i - 1][j].moveR[0] = -1;
           grid[i - 1][j].moveQ[0] = 0;
-          
+
           grid[i][j - 1].moveR[1] = -1;
           grid[i][j - 1].moveQ[1] = 0;
-          
+
           grid[i + 1][j].moveR[2] = -1;
           grid[i + 1][j].moveQ[2] = 0;
-          
+
           grid[i][j + 1].moveR[3] = -1;
           grid[i][j + 1].moveQ[3] = 0;
-        }
-        
-        else if (grid[i][j].state == 3) {
+        } else if (grid[i][j].state == 3) {
           grid[i][j].state = 0;
           grid[i - 1][j].moveR[0] = 0;
           grid[i - 1][j].moveQ[0] = 0;
-          
+
           grid[i][j - 1].moveR[1] = 0;
           grid[i][j - 1].moveQ[1] = 0;
-          
+
           grid[i + 1][j].moveR[2] = 0;
           grid[i + 1][j].moveQ[2] = 0;
-          
+
           grid[i][j + 1].moveR[3] = 0;
           grid[i][j + 1].moveQ[3] = 0;
         }
