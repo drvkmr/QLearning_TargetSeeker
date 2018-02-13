@@ -4,4 +4,5 @@ A basic Q-learning based target seeker built from scratch in Processing. Based o
 
 http://mnemstudio.org/path-finding-q-learning-tutorial.htm
 
-<iframe src="https://player.vimeo.com/video/255505282" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+Check the video here -
+https://vimeo.com/255505282/
