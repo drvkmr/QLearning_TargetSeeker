@@ -1,6 +1,6 @@
 class Cell {
-  float x, y;
-  float w;
+  int x, y;
+  int w;
   int state; // 0 is blank, 1 is agent, 2 is target, 3 is blocked
 
   //ENVIRONMENT RESTRICTIONS
@@ -9,7 +9,7 @@ class Cell {
   //MEMORY (Q - MATRIX)
   int[] moveQ;
 
-  Cell (float x_, float y_, float w_) {
+  Cell (int x_, int y_, int w_) {
     x = x_;
     y = y_;
     w = w_;
@@ -26,6 +26,7 @@ class Cell {
   }
 
   void display() {
+    textFont(f);
     if (state == 0) fill(255);
     else if (state == 1)
       if(mover == -1) fill(200, 255, 200);

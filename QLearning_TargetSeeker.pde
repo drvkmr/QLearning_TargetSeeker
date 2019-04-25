@@ -1,3 +1,8 @@
+import controlP5.*;
+
+ControlP5 cp5;
+
+//
 int w = 50;
 int columns, rows;
 Cell[][] grid;
@@ -8,7 +13,7 @@ PVector agent;
 float gamma = 0.8;
 boolean reset = true;
 
-PFont f, fT;
+PFont f, UI;
 
 int showQ = -1; // +1 for showR
 
@@ -19,20 +24,20 @@ int mover = 1; //1 is random, -1 is thinker
 int counter = 0;
 
 void setup() {
-  size(650, 650);
-  columns = width/w;
+  size(950, 650);
+  columns = (width-300)/w;
   rows = height/w;
   grid = new Cell[columns][rows];
 
   //printArray(PFont.list());
   f = createFont("AvenirNextCondensed-UltraLight", 9);
-  textFont(f);
+  UI = createFont("AvenirNextCondensed-UltraLight", 16);
   textAlign(CENTER, CENTER);
 
   //INITIALISATION
   for ( int i = 0; i < columns; i++) {
     for ( int j = 0; j < rows; j++) {
-      grid[i][j] = new Cell(i*w, j*w, w);
+      grid[i][j] = new Cell(300+i*w, j*w, w);
     }
   }
 
@@ -93,9 +98,10 @@ void draw() {
     reset = false;
   }
 
-  int move = int(random(5));
-  while (grid[int(agent.x)][int(agent.y)].moveR[move] == -1)
-    move = int(random(5));
+  int move;
+  do move = int(random(4));
+  while (grid[int(agent.x)][int(agent.y)].moveR[move] == -1);
+
   if (mover == -1) {
     for (int i=0; i<5; i++) {
       if (grid[int(agent.x)][int(agent.y)].moveQ[i] > grid[int(agent.x)][int(agent.y)].moveQ[move])
@@ -134,7 +140,7 @@ void draw() {
       grid[i][j].display();
     }
   }
-  //delay(2);
+  delay(20);
   //noLoop();
   grid[int(agent.x)][int(agent.y)].state = 0;
   text(counter, 10, 10);
